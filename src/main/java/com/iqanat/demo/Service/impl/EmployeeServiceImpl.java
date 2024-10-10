@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO getEmployeeById(Long employeeId) {
 
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee with id "+employeeId+" does not exist"));
+                .orElseThrow(() -> { return new ResourceNotFoundException("Employee with id "+employeeId+" does not exist");} );
         return EmployeeMapper.mapToEMployeeDTO(employee);
     }
 
@@ -57,5 +57,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employee);
         return EmployeeMapper.mapToEMployeeDTO(savedEmployee);
+    }
+
+    @Override
+    public void deleteEmployee(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee with id "+employeeId+" does not exist")
+                );
+
+        employeeRepository.delete(employee);
     }
 }
