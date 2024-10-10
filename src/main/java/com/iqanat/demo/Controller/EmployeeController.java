@@ -5,12 +5,10 @@ import com.iqanat.demo.DTO.EmployeeDTO;
 import com.iqanat.demo.Service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -26,6 +24,20 @@ public class EmployeeController {
         EmployeeDTO savedEmployee = employeeService.createEmployee(employeeDTO);
 
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable("id") Long employeeId) {
+        EmployeeDTO employeeDTO = employeeService.getEmployeeById(employeeId);
+
+        return ResponseEntity.ok(employeeDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeDTO>> getEmployees() {
+        List<EmployeeDTO> employees = employeeService.getAllEmployees();
+
+        return ResponseEntity.ok(employees);
     }
 
 }
